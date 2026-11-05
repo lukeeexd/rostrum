@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { THEME_COLOR } from "@/lib/themeColor";
 
 export type ThemePref = "system" | "light" | "dark";
 
@@ -41,6 +42,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const resolved = resolveTheme(pref, systemDark);
   useEffect(() => {
     document.documentElement.classList.toggle("dark", resolved === "dark");
+    // Both tags (light/dark media) take the chosen theme, so a manual switch wins over the OS.
+    for (const meta of document.querySelectorAll('meta[name="theme-color"]')) meta.setAttribute("content", THEME_COLOR[resolved]);
   }, [resolved]);
 
   const setPref = useCallback((next: ThemePref) => {

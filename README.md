@@ -104,9 +104,19 @@ Dispatcharr, and Rostrum reads it from there when `DISPATCHARR_URL` and
 height and bitrate.
 
 **Images.** `ghcr.io/lukeeexd/rostrum:latest` tracks `main`. Each release
-`vX.Y.Z` also publishes `X.Y.Z` and `X.Y`: pin `:0.4` to take fixes but
+`vX.Y.Z` also publishes `X.Y.Z` and `X.Y`: pin `:0.5` to take fixes but
 choose when to move to a new minor version. `/healthz` and the sidebar show
 the running version.
+
+**Install it as an app.** Rostrum can sit on a phone's home screen or in a
+desktop dock in its own window: "Install app" in Chrome or Edge's menu, or
+Share → "Add to Home Screen" in Safari on iOS. Long-press the icon (Android,
+desktop) for Problem channels, Live and Soak tests. It is still the live page,
+so it needs a connection to Rostrum; nothing is kept offline. Chrome and
+Edge offer "Install app" only on `https://` (or `localhost`), so for those
+reach Rostrum through a reverse proxy with a certificate (Caddy, Traefik, …)
+under a name in `ROSTRUM_ALLOWED_HOSTS`. Safari's Add to Home Screen works
+over plain `http://` too.
 
 ## What it can change
 

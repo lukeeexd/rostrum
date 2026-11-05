@@ -39,6 +39,8 @@ const CSP = [
 function cacheControl(c: Context): string | undefined {
   if (c.res.headers.has("cache-control") || c.res.status !== 200) return undefined;
   if (c.req.path.startsWith("/assets/")) return "public, max-age=31536000, immutable";
+  // Not hashed, so an icon or shortcut change must reach installed apps.
+  if (c.req.path === "/manifest.webmanifest") return "no-cache";
   if (c.res.headers.get("content-type")?.startsWith("text/html")) return "no-cache";
   return undefined;
 }
