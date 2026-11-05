@@ -12,6 +12,7 @@ function walk(first: [number, StreamStatus] | null, walkedAt = 0): StreamIndex {
   const streams = new Map(first ? [[first[0], { streamId: first[0], name: `S${first[0]}`, provider: "Provider A", channelId: 1, channelName: "C", lastSoak: null }]] : []);
   return {
     walkedAt,
+    source: "previews",
     streams,
     channels: [{ id: 1, name: "C", group: "G", groupId: 1, streams: first ? [{ streamId: first[0], status: first[1] }] : [] }],
     channelsByName: new Map(),

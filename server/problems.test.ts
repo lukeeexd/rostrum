@@ -35,7 +35,7 @@ function index(channels: IndexedChannel[]): StreamIndex {
       });
     }
   }
-  return { walkedAt: 42, streams, channels, channelsByName: new Map() };
+  return { walkedAt: 42, source: "previews", streams, channels, channelsByName: new Map() };
 }
 
 describe("projectProblems", () => {

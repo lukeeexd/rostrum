@@ -15,8 +15,8 @@ import {
  * Rostrum page to have something to show. Read endpoints answer from the
  * catalogue; the re-check and soak queues accept requests and remember them
  * for the session. Response shapes follow Podium 1.17 (see
- * src/test/fixtures), plus the newer `channels` re-check scope and the
- * preview's `last*` media fields.
+ * src/test/fixtures), plus the newer `channels` re-check scope, the
+ * preview's `last*` media fields and GET /api/verdicts.
  */
 
 const MIN = 60_000;
@@ -303,6 +303,21 @@ export function createDemoPodium(groups: DemoGroup[], now: () => number = Date.n
       currentOrder: ch.streams.map((s, i) => previewRow(s, i + 1)),
     });
   });
+
+  // Every managed channel's streams with their verdicts in one call (Podium with GET /api/verdicts).
+  app.get("/api/verdicts", (c) =>
+    c.json({
+      fetchedAt: now() - 4 * MIN,
+      catalogueWrittenAt: now() - 4 * MIN,
+      cacheUnavailable: false,
+      groups: groups.map((g) => ({ id: g.id, name: g.name })),
+      channels: channels.filter((ch) => ch.streams.length).map((ch) => ({ id: ch.id, name: ch.name, groupId: ch.groupId, streams: ch.streams.map((s) => s.id) })),
+      streams: streams.map((s) => {
+        const { raw, currentRank, ...row } = previewRow(s, 0);
+        return { ...row, name: raw, deadStreak: s.status === "dead" ? s.deadStreak : 0 };
+      }),
+    }),
+  );
 
   app.get("/api/streams", (c) => {
     const q = (c.req.query("q") ?? "").toLowerCase();

@@ -19,7 +19,7 @@ const WEEK = 7 * DAY;
 
 /** The walk Rostrum would make of the catalogue: every channel's streams in order, and every stream once. */
 export function indexOf(groups: DemoGroup[], at: number): StreamIndex {
-  const index: StreamIndex = { walkedAt: at, streams: new Map(), channels: [], channelsByName: new Map() };
+  const index: StreamIndex = { walkedAt: at, source: "previews", streams: new Map(), channels: [], channelsByName: new Map() };
   for (const g of groups) {
     for (const ch of g.channels) {
       index.channelsByName.set(ch.name, ch.id);

@@ -57,6 +57,11 @@ function podium(): MockPodium {
     searchStreams: vi.fn(),
     metrics: vi.fn(),
     stats: vi.fn(),
+    // Podium 1.17: no /api/verdicts, so the index walks the previews.
+    health: vi.fn(async () => ({ version: "1.17.0" })),
+    verdicts: vi.fn(async () => {
+      throw new UpstreamError("status", 404);
+    }),
   } as unknown as MockPodium;
 }
 

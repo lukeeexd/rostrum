@@ -147,10 +147,12 @@ Rostrum has no login. Its server is a narrow proxy in front of Podium:
   stream stats. They return only the fields the pages show.
   - The history pages read Rostrum's own database (`?range=24h|7d|30d|90d`; any
     other range is refused).
-  - To fill that database, Rostrum walks every channel's preview every 5
-    minutes. That's the same read-only call the Channels page makes (no probing, no
-    Dispatcharr calls), four channels at a time; each is a quick read of Podium's
-    cache.
+  - To fill that database, Rostrum reads every channel's streams and their
+    verdicts every 5 minutes: in one call to `GET /api/verdicts` on a Podium that
+    has it, otherwise by walking each channel's preview, the same read-only call
+    the Channels page makes, four channels at a time. Neither probes anything or
+    calls Dispatcharr. Rostrum notices an upgrade on its own and logs which way
+    it is reading.
 - **Load on Podium is bounded.**
   - Podium's state is reused for 10 seconds.
   - Searches (2 to 100 characters, at most 200 results) and provider metrics

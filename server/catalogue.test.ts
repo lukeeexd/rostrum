@@ -16,6 +16,8 @@ function podium(over: Partial<PodiumClient> = {}): PodiumClient {
     metrics: vi.fn(async () => metricsText),
     stats: vi.fn(async () => ({})),
     connectStatus: vi.fn(async () => ({})),
+    health: vi.fn(async () => ({ version: "1.17.0" })),
+    verdicts: vi.fn(async () => ({})),
     ...over,
   };
 }

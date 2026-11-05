@@ -51,6 +51,16 @@ export interface PodiumConnectStatus {
   }[];
 }
 
+/** /api/verdicts (Podium with lpukatch/podium#12): every managed channel's streams with their cached verdicts, in one call. */
+export interface PodiumVerdicts {
+  fetchedAt?: number;
+  /** True when Podium could not read its probe cache: the lists are then empty or verdict-less. */
+  cacheUnavailable?: boolean;
+  channels?: { id?: number; name?: string; groupId?: number | null; streams?: number[] }[];
+  /** Each stream once, with the same `last*` fields as a preview row (and `name` for the preview's `raw`). */
+  streams?: (Omit<PodiumPreviewStream, "raw" | "currentRank"> & { name?: string | null })[];
+}
+
 /** /api/streams: the catalogue searched by name, grouped under normalised names. */
 export interface PodiumStreamSearch {
   query?: string;
@@ -107,6 +117,14 @@ export function createPodiumClient({ upstream, token, fetch }: { upstream: URL; 
   return {
     state: (signal?: AbortSignal) =>
       fetchJson<PodiumState>(fetch, new URL("/api/state", upstream), { headers, timeoutMs: TIMEOUT_MS, signal }),
+
+    /** Podium's version (and worker state). */
+    health: (signal?: AbortSignal) =>
+      fetchJson<{ version?: string }>(fetch, new URL("/api/health", upstream), { headers, timeoutMs: TIMEOUT_MS, signal }),
+
+    /** Every managed stream's cached verdict in one call; a Podium without it answers 404. */
+    verdicts: (signal?: AbortSignal) =>
+      fetchJson<PodiumVerdicts>(fetch, new URL("/api/verdicts", upstream), { headers, timeoutMs: TIMEOUT_MS, signal }),
 
     /** Stream states, primary health and freshness: what the history snapshots record. */
     stats: (signal?: AbortSignal) =>

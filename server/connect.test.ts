@@ -7,6 +7,7 @@ const SECRET = "http://user:SECRET123@cdn.example/live/user/SECRET123/1.ts";
 
 const index: StreamIndex = {
   walkedAt: 0,
+  source: "previews",
   channels: [],
   streams: new Map([
     [8135, { streamId: 8135, name: "Arena Sports Golf HD", provider: "Provider A", channelId: 40, channelName: "Arena Sports Golf", lastSoak: null }],
