@@ -1,0 +1,19 @@
+@import "@fontsource-variable/inter/opsz.css";
+@import "./styles/globals.css";
+
+/* BoardUI's theme reads --font-inter (set by next/font in its own starter). */
+:root {
+  --font-inter: "Inter Variable";
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+/* Numeric table columns: right-aligned so digits line up under their
+ * heading. A class rather than a utility because BoardUI's unlayered
+ * `.bui-table th { text-align: start }` would beat a layered `text-end`. */
+.bui-table .num {
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}

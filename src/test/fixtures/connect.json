@@ -1,0 +1,23 @@
+{
+  "summary": {
+    "trackingSince": 1791770415000,
+    "accepted": 0,
+    "rejected": 0,
+    "lastReceivedAt": null,
+    "lastRejectedAt": null,
+    "lastRejection": null,
+    "syncErrors": 0,
+    "lastSyncAt": 1793873427122,
+    "lastSyncSuccessAt": 1793873427122,
+    "syncError": null,
+    "syncWanted": true,
+    "syncPodiumUrl": "http://podium.example",
+    "syncDispatcharrUrl": "http://podium.example"
+  },
+  "pending": 0,
+  "recent": [],
+  "state": "listening",
+  "enabled": true,
+  "stabilityEnabled": true,
+  "callbackUrl": "<scrubbed>"
+}

@@ -1,0 +1,1693 @@
+{
+  "query": "Title 56",
+  "total": 76,
+  "truncated": false,
+  "groups": [
+    {
+      "normalized": "Title 56",
+      "count": 4,
+      "providers": [
+        "Provider A",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 56 SD",
+        "Title 56 HD",
+        "Title 56 FHD"
+      ],
+      "claimedBy": "432",
+      "claimedByChannelIds": [
+        432
+      ],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "normalized": "Title 191",
+      "count": 4,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 191",
+        "Title 191",
+        "Title 191"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 3
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 3
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 193",
+      "count": 4,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 193",
+        "Title 193 HD",
+        "Title 193 4K"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 3
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 3
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 194",
+      "count": 3,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 194",
+        "Title 194",
+        "Title 194"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 2
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 2
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 57",
+      "count": 3,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 57",
+        "Title 57 4K",
+        "Title 57"
+      ],
+      "claimedBy": "432",
+      "claimedByChannelIds": [
+        432
+      ],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 2
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 2
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 195",
+      "count": 3,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 195",
+        "Title 195 HD",
+        "Title 195 HD"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 3
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "normalized": "Title 196",
+      "count": 3,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 196",
+        "Title 196",
+        "Title 196"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 2
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 2
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 197",
+      "count": 3,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 197",
+        "Title 197 HD",
+        "Title 197"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 2
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 2
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 198",
+      "count": 3,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 198",
+        "Title 198",
+        "Title 198"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 2
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 2
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 199",
+      "count": 3,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 199",
+        "Title 199",
+        "Title 199"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 2
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 2
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 200",
+      "count": 3,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 200",
+        "Title 200",
+        "Title 200"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 2
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 2
+        },
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 201",
+      "count": 2,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 201",
+        "Title 201"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        },
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 202",
+      "count": 2,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 202",
+        "Title 202"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        },
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 203",
+      "count": 2,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 203",
+        "Title 203"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        },
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 204",
+      "count": 2,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 204",
+        "Title 204"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        },
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 205",
+      "count": 2,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 205",
+        "Title 205 HD"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 2
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "normalized": "Title 206",
+      "count": 2,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 206",
+        "Title 206"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        },
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 207",
+      "count": 2,
+      "providers": [
+        "Provider C",
+        "Provider B"
+      ],
+      "samples": [
+        "Title 207",
+        "Title 207"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        },
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 59",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 59"
+      ],
+      "claimedBy": "432",
+      "claimedByChannelIds": [
+        432
+      ],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 3",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 60",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 60"
+      ],
+      "claimedBy": "432",
+      "claimedByChannelIds": [
+        432
+      ],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 4",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 208",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 208"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 5",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 209",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 209"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 6",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 210",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 210"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 7",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 211",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 211"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 8",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 212",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 212"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 9",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 213",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 213"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 10",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 214",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 214"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 11",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 215",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 215"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 12",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 216",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 216"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 13",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 217",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 217"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 14",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 218",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 218"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 15",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 219",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 219"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 16",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 220",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 220"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 17",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 221",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 221"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 18",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 222",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 222"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 19",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 59",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 59"
+      ],
+      "claimedBy": "432",
+      "claimedByChannelIds": [
+        432
+      ],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 20",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 223",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 223"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 21",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 224",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 224"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 22",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 225",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 225"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 23",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 226",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 226"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 24",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 227",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 227"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 25",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 228",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 228"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 26",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 229",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 229"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 27",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 230",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 230"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 28",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 231",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 231"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 29",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 232",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 232"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 30",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 233",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 233"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 31",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 234",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 234"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 32",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 235",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 235"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 33",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 236",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 236"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 34",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 237",
+      "count": 1,
+      "providers": [
+        "Provider A"
+      ],
+      "samples": [
+        "Title 237"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 35",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 238",
+      "count": 1,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 238"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 239",
+      "count": 1,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 239"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 240",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 240"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 241",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 241"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 242",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 242"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 243",
+      "count": 1,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 243"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 244",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 244"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 58",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 58"
+      ],
+      "claimedBy": "432",
+      "claimedByChannelIds": [
+        432
+      ],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 245",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 245"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 246",
+      "count": 1,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 246"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 247",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 247"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 248",
+      "count": 1,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 249 4K"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 250",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 36",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 251",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 251"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 252",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 252"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 253",
+      "count": 1,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 253"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 254",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 254"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 255",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 255"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 256",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 256"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 257",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 257"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 258",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 258"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 259",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 259"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 260",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 260"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 261",
+      "count": 1,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 261"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 262",
+      "count": 1,
+      "providers": [
+        "Provider C"
+      ],
+      "samples": [
+        "Title 262"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [
+        {
+          "name": "Title 192",
+          "count": 1
+        }
+      ],
+      "sections": [
+        {
+          "name": "Prefix 1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "normalized": "Title 263",
+      "count": 1,
+      "providers": [
+        "Provider B"
+      ],
+      "samples": [
+        "Title 263"
+      ],
+      "claimedBy": null,
+      "claimedByChannelIds": [],
+      "prefixes": [],
+      "sections": [
+        {
+          "name": "Prefix 2",
+          "count": 1
+        }
+      ]
+    }
+  ]
+}

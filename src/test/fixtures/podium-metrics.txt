@@ -1,0 +1,116 @@
+# HELP podium_provider_streams Distinct managed streams by last known verdict state. Precedence: dead > black > low_bitrate > alive; unmeasured means no verdict yet.
+# TYPE podium_provider_streams gauge
+podium_provider_streams{provider="Provider B",state="alive"} 191
+podium_provider_streams{provider="Provider B",state="dead"} 1
+podium_provider_streams{provider="Provider B",state="black"} 1
+podium_provider_streams{provider="Provider B",state="low_bitrate"} 7
+podium_provider_streams{provider="Provider B",state="unmeasured"} 21
+# HELP podium_provider_dead_streams Dead streams by why they died. probe_error is ours (no ffprobe, bad payload), not the provider's.
+# TYPE podium_provider_dead_streams gauge
+podium_provider_dead_streams{provider="Provider B",reason="auth"} 0
+podium_provider_dead_streams{provider="Provider B",reason="not_found"} 0
+podium_provider_dead_streams{provider="Provider B",reason="client_error"} 0
+podium_provider_dead_streams{provider="Provider B",reason="server_error"} 1
+podium_provider_dead_streams{provider="Provider B",reason="timeout"} 0
+podium_provider_dead_streams{provider="Provider B",reason="unreachable"} 0
+podium_provider_dead_streams{provider="Provider B",reason="unsupported"} 0
+podium_provider_dead_streams{provider="Provider B",reason="rejected"} 0
+podium_provider_dead_streams{provider="Provider B",reason="probe_error"} 0
+podium_provider_dead_streams{provider="Provider B",reason="other"} 0
+# HELP podium_provider_resolution_streams Distinct managed streams by measured resolution, whether or not they are usable: a black 1080p slate still counts as fhd, and the state family is what says it is broken.
+# TYPE podium_provider_resolution_streams gauge
+podium_provider_resolution_streams{provider="Provider B",resolution="uhd"} 11
+podium_provider_resolution_streams{provider="Provider B",resolution="fhd"} 124
+podium_provider_resolution_streams{provider="Provider B",resolution="hd"} 4
+podium_provider_resolution_streams{provider="Provider B",resolution="sd"} 60
+podium_provider_resolution_streams{provider="Provider B",resolution="unknown"} 22
+# HELP podium_provider_bitrate_measured Streams whose bitrate was measured rather than declared.
+# TYPE podium_provider_bitrate_measured gauge
+podium_provider_bitrate_measured{provider="Provider B"} 199
+# HELP podium_provider_bitrate_kbps Median measured bitrate across this provider's managed streams, overall and within one resolution bucket.
+# TYPE podium_provider_bitrate_kbps gauge
+podium_provider_bitrate_kbps{provider="Provider B",resolution="all",stat="median"} 3638.2
+podium_provider_bitrate_kbps{provider="Provider B",resolution="fhd",stat="median"} 5569
+podium_provider_bitrate_kbps{provider="Provider B",resolution="sd",stat="median"} 1456.85
+podium_provider_bitrate_kbps{provider="Provider B",resolution="hd",stat="median"} 2939.1000000000004
+podium_provider_bitrate_kbps{provider="Provider B",resolution="uhd",stat="median"} 14758.5
+# HELP podium_provider_score Median podium score across this provider's usable streams -- the same 0..1 number that decides ranking. Quality of what works; the state family carries how much of it works.
+# TYPE podium_provider_score gauge
+podium_provider_score{provider="Provider B",stat="median"} 0.51
+# HELP podium_provider_verdict_age_seconds Age of the verdicts this provider is being judged on. A provider whose lane runs at its limit is probed least often, so its numbers are the stalest.
+# TYPE podium_provider_verdict_age_seconds gauge
+podium_provider_verdict_age_seconds{provider="Provider B",stat="median"} 35281
+podium_provider_verdict_age_seconds{provider="Provider B",stat="max"} 35469
+# HELP podium_provider_channels Distinct channels carrying at least one of this provider streams, at any slot -- the denominator for rank-1 wins.
+# TYPE podium_provider_channels gauge
+podium_provider_channels{provider="Provider B"} 88
+# HELP podium_provider_rank1_channels Channels whose slot-0 stream belongs to this provider.
+# TYPE podium_provider_rank1_channels gauge
+podium_provider_rank1_channels{provider="Provider B"} 55
+# HELP podium_provider_rank1_healthy Slot-0 channels whose verdict ranks as usable.
+# TYPE podium_provider_rank1_healthy gauge
+podium_provider_rank1_healthy{provider="Provider B"} 39
+podium_provider_streams{provider="Provider A",state="alive"} 208
+podium_provider_streams{provider="Provider A",state="dead"} 3
+podium_provider_streams{provider="Provider A",state="black"} 0
+podium_provider_streams{provider="Provider A",state="low_bitrate"} 8
+podium_provider_streams{provider="Provider A",state="unmeasured"} 5
+podium_provider_dead_streams{provider="Provider A",reason="auth"} 0
+podium_provider_dead_streams{provider="Provider A",reason="not_found"} 3
+podium_provider_dead_streams{provider="Provider A",reason="client_error"} 0
+podium_provider_dead_streams{provider="Provider A",reason="server_error"} 0
+podium_provider_dead_streams{provider="Provider A",reason="timeout"} 0
+podium_provider_dead_streams{provider="Provider A",reason="unreachable"} 0
+podium_provider_dead_streams{provider="Provider A",reason="unsupported"} 0
+podium_provider_dead_streams{provider="Provider A",reason="rejected"} 0
+podium_provider_dead_streams{provider="Provider A",reason="probe_error"} 0
+podium_provider_dead_streams{provider="Provider A",reason="other"} 0
+podium_provider_resolution_streams{provider="Provider A",resolution="uhd"} 6
+podium_provider_resolution_streams{provider="Provider A",resolution="fhd"} 136
+podium_provider_resolution_streams{provider="Provider A",resolution="hd"} 45
+podium_provider_resolution_streams{provider="Provider A",resolution="sd"} 29
+podium_provider_resolution_streams{provider="Provider A",resolution="unknown"} 8
+podium_provider_bitrate_measured{provider="Provider A"} 216
+podium_provider_bitrate_kbps{provider="Provider A",resolution="all",stat="median"} 5046.6
+podium_provider_bitrate_kbps{provider="Provider A",resolution="fhd",stat="median"} 6315.75
+podium_provider_bitrate_kbps{provider="Provider A",resolution="hd",stat="median"} 4006.7
+podium_provider_bitrate_kbps{provider="Provider A",resolution="sd",stat="median"} 1383
+podium_provider_bitrate_kbps{provider="Provider A",resolution="uhd",stat="median"} 11511.4
+podium_provider_score{provider="Provider A",stat="median"} 0.511
+podium_provider_verdict_age_seconds{provider="Provider A",stat="median"} 34942
+podium_provider_verdict_age_seconds{provider="Provider A",stat="max"} 35453
+podium_provider_channels{provider="Provider A"} 79
+podium_provider_rank1_channels{provider="Provider A"} 32
+podium_provider_rank1_healthy{provider="Provider A"} 29
+podium_provider_streams{provider="Provider C",state="alive"} 149
+podium_provider_streams{provider="Provider C",state="dead"} 0
+podium_provider_streams{provider="Provider C",state="black"} 16
+podium_provider_streams{provider="Provider C",state="low_bitrate"} 1
+podium_provider_streams{provider="Provider C",state="unmeasured"} 9
+podium_provider_dead_streams{provider="Provider C",reason="auth"} 0
+podium_provider_dead_streams{provider="Provider C",reason="not_found"} 0
+podium_provider_dead_streams{provider="Provider C",reason="client_error"} 0
+podium_provider_dead_streams{provider="Provider C",reason="server_error"} 0
+podium_provider_dead_streams{provider="Provider C",reason="timeout"} 0
+podium_provider_dead_streams{provider="Provider C",reason="unreachable"} 0
+podium_provider_dead_streams{provider="Provider C",reason="unsupported"} 0
+podium_provider_dead_streams{provider="Provider C",reason="rejected"} 0
+podium_provider_dead_streams{provider="Provider C",reason="probe_error"} 0
+podium_provider_dead_streams{provider="Provider C",reason="other"} 0
+podium_provider_resolution_streams{provider="Provider C",resolution="uhd"} 5
+podium_provider_resolution_streams{provider="Provider C",resolution="fhd"} 76
+podium_provider_resolution_streams{provider="Provider C",resolution="hd"} 67
+podium_provider_resolution_streams{provider="Provider C",resolution="sd"} 18
+podium_provider_resolution_streams{provider="Provider C",resolution="unknown"} 9
+podium_provider_bitrate_measured{provider="Provider C"} 165
+podium_provider_bitrate_kbps{provider="Provider C",resolution="all",stat="median"} 3552.9
+podium_provider_bitrate_kbps{provider="Provider C",resolution="hd",stat="median"} 2840
+podium_provider_bitrate_kbps{provider="Provider C",resolution="fhd",stat="median"} 4241.05
+podium_provider_bitrate_kbps{provider="Provider C",resolution="sd",stat="median"} 1447.9
+podium_provider_bitrate_kbps{provider="Provider C",resolution="uhd",stat="median"} 12063.9
+podium_provider_score{provider="Provider C",stat="median"} 0.397
+podium_provider_verdict_age_seconds{provider="Provider C",stat="median"} 35117
+podium_provider_verdict_age_seconds{provider="Provider C",stat="max"} 35479
+podium_provider_channels{provider="Provider C"} 75
+podium_provider_rank1_channels{provider="Provider C"} 6
+podium_provider_rank1_healthy{provider="Provider C"} 4

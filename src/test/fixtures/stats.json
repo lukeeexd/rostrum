@@ -1,0 +1,63 @@
+{
+  "worker": "active",
+  "heartbeatAgeSeconds": 1,
+  "catalogueWrittenAt": 1793871962911,
+  "streams": {
+    "total": 620,
+    "measured": 585,
+    "healthy": 548,
+    "states": {
+      "alive": 548,
+      "dead": 4,
+      "black": 17,
+      "low_bitrate": 16,
+      "unmeasured": 35
+    }
+  },
+  "primary": {
+    "total": 93,
+    "healthy": 72
+  },
+  "providers": [
+    {
+      "name": "Provider B",
+      "primary": 55,
+      "healthy": 39
+    },
+    {
+      "name": "Provider A",
+      "primary": 32,
+      "healthy": 29
+    },
+    {
+      "name": "Provider C",
+      "primary": 6,
+      "healthy": 4
+    }
+  ],
+  "freshness": {
+    "oldestProbeAgeSeconds": 35478,
+    "targetSeconds": 86400,
+    "breaching": false
+  },
+  "lastRun": {
+    "run_id": "run-1793871962157-usjhh7",
+    "started_at": 1793871962157,
+    "finished_at": 1793871962936,
+    "channels": 0,
+    "probed": 0,
+    "cached": 640,
+    "dead": 0,
+    "reordered": 0,
+    "unchanged": 77,
+    "assigned": 0,
+    "measured": 0,
+    "skipped": 0,
+    "deferred": 0,
+    "backlog": 0,
+    "next_due_at": 1793895896591,
+    "oldest_probed_at": 1793837990111,
+    "error": null,
+    "removed": 0
+  }
+}

@@ -1,0 +1,31 @@
+# Rostrum: a monitoring dashboard for Podium.
+#   1. Put PODIUM_URL (and PODIUM_TOKEN, if Podium has one) in a .env file next to this.
+#   2. docker compose up -d, then open http://<host>:8080
+services:
+  rostrum:
+    # :latest tracks main; pin a release (e.g. :0.4) to upgrade on your own schedule.
+    image: ghcr.io/lukeeexd/rostrum:latest
+    container_name: rostrum
+    restart: unless-stopped
+    ports:
+      # Drop "127.0.0.1:" to reach it from other machines. Read "Who can reach it" in the README first.
+      - "127.0.0.1:8080:8080"
+    environment:
+      PODIUM_URL: ${PODIUM_URL:?set PODIUM_URL, e.g. http://192.168.1.10:3456}
+      PODIUM_TOKEN: ${PODIUM_TOKEN:-}
+      # Optional: per-stream FPS / codec / audio on the Channels page (set both or neither).
+      DISPATCHARR_URL: ${DISPATCHARR_URL:-}
+      DISPATCHARR_API_KEY: ${DISPATCHARR_API_KEY:-}
+      # Extra names to answer to beyond private IPs and .lan/.local names, e.g. rostrum.example.com
+      ROSTRUM_ALLOWED_HOSTS: ${ROSTRUM_ALLOWED_HOSTS:-}
+    volumes:
+      # What Rostrum records (a small SQLite file: 90 days of snapshots, soaks, Connect events, channel history).
+      - rostrum-data:/data
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  rostrum-data:

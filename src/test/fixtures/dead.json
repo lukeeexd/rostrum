@@ -1,0 +1,639 @@
+{
+  "fetchedAt": 1793873468863,
+  "totals": {
+    "dead": 9,
+    "black": 17,
+    "orphans": 0,
+    "channelsServedFirst": 0,
+    "channelsAffected": 14,
+    "worstStreak": 7,
+    "oldestProbedAt": 1793838014683
+  },
+  "providers": [
+    {
+      "id": 7,
+      "name": "Provider A",
+      "dead": 6,
+      "black": 0,
+      "streams": 2579
+    },
+    {
+      "id": 4,
+      "name": "Provider B",
+      "dead": 3,
+      "black": 1,
+      "streams": 3317
+    },
+    {
+      "id": 9,
+      "name": "Provider C",
+      "dead": 0,
+      "black": 16,
+      "streams": 1466
+    }
+  ],
+  "channels": [
+    {
+      "id": 502,
+      "name": "Title 1",
+      "groupId": 645,
+      "deadCount": 1,
+      "assigned": 4,
+      "servedFirstDead": false
+    },
+    {
+      "id": 460,
+      "name": "Title 2",
+      "groupId": 645,
+      "deadCount": 2,
+      "assigned": 12,
+      "servedFirstDead": false
+    },
+    {
+      "id": 459,
+      "name": "Title 3",
+      "groupId": 645,
+      "deadCount": 2,
+      "assigned": 12,
+      "servedFirstDead": false
+    },
+    {
+      "id": 458,
+      "name": "Title 4",
+      "groupId": 645,
+      "deadCount": 2,
+      "assigned": 12,
+      "servedFirstDead": false
+    },
+    {
+      "id": 457,
+      "name": "Title 5",
+      "groupId": 645,
+      "deadCount": 2,
+      "assigned": 12,
+      "servedFirstDead": false
+    },
+    {
+      "id": 1375,
+      "name": "Title 6",
+      "groupId": 645,
+      "deadCount": 1,
+      "assigned": 11,
+      "servedFirstDead": false
+    },
+    {
+      "id": 465,
+      "name": "Title 7",
+      "groupId": 645,
+      "deadCount": 1,
+      "assigned": 12,
+      "servedFirstDead": false
+    },
+    {
+      "id": 1294,
+      "name": "Title 8",
+      "groupId": 645,
+      "deadCount": 1,
+      "assigned": 11,
+      "servedFirstDead": false
+    },
+    {
+      "id": 1303,
+      "name": "Title 9",
+      "groupId": 875,
+      "deadCount": 3,
+      "assigned": 10,
+      "servedFirstDead": false
+    },
+    {
+      "id": 1385,
+      "name": "Title 10",
+      "groupId": 877,
+      "deadCount": 1,
+      "assigned": 6,
+      "servedFirstDead": false
+    },
+    {
+      "id": 498,
+      "name": "Title 11",
+      "groupId": 643,
+      "deadCount": 1,
+      "assigned": 7,
+      "servedFirstDead": false
+    },
+    {
+      "id": 1379,
+      "name": "Title 12",
+      "groupId": 643,
+      "deadCount": 1,
+      "assigned": 5,
+      "servedFirstDead": false
+    },
+    {
+      "id": 441,
+      "name": "Title 13",
+      "groupId": 643,
+      "deadCount": 2,
+      "assigned": 9,
+      "servedFirstDead": false
+    },
+    {
+      "id": 1376,
+      "name": "Title 14",
+      "groupId": 643,
+      "deadCount": 1,
+      "assigned": 11,
+      "servedFirstDead": false
+    }
+  ],
+  "entries": [
+    {
+      "streamId": 8152,
+      "name": "Title 14",
+      "providerId": 4,
+      "provider": "Provider B",
+      "status": "dead",
+      "probedAt": 1793838296591,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 5XX Server Error reply",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": [
+        {
+          "id": 1376,
+          "name": "Title 14",
+          "groupId": 643,
+          "rank": 11
+        }
+      ]
+    },
+    {
+      "streamId": 7541,
+      "name": "Title 12 SD",
+      "providerId": 7,
+      "provider": "Provider A",
+      "status": "dead",
+      "probedAt": 1793838747454,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 404 Not Found",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": [
+        {
+          "id": 1379,
+          "name": "Title 12",
+          "groupId": 643,
+          "rank": 5
+        }
+      ]
+    },
+    {
+      "streamId": 7535,
+      "name": "Title 13 HD",
+      "providerId": 7,
+      "provider": "Provider A",
+      "status": "dead",
+      "probedAt": 1793838753254,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 404 Not Found",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": [
+        {
+          "id": 441,
+          "name": "Title 13",
+          "groupId": 643,
+          "rank": 8
+        }
+      ]
+    },
+    {
+      "streamId": 9596,
+      "name": "Title 13 FHD 5.1",
+      "providerId": 7,
+      "provider": "Provider A",
+      "status": "dead",
+      "probedAt": 1793838753463,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 404 Not Found",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": [
+        {
+          "id": 441,
+          "name": "Title 13",
+          "groupId": 643,
+          "rank": 9
+        }
+      ]
+    },
+    {
+      "streamId": 13248,
+      "name": "Title 15",
+      "providerId": 4,
+      "provider": "Provider B",
+      "status": "dead",
+      "probedAt": 1793866853689,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 4XX Client Error, but not one of 40{0,1,3,4}",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": []
+    },
+    {
+      "streamId": 16740,
+      "name": "Title 16 SD",
+      "providerId": 7,
+      "provider": "Provider A",
+      "status": "dead",
+      "probedAt": 1793866915028,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 404 Not Found",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": []
+    },
+    {
+      "streamId": 16739,
+      "name": "Title 17 SD",
+      "providerId": 7,
+      "provider": "Provider A",
+      "status": "dead",
+      "probedAt": 1793866915524,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 404 Not Found",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": []
+    },
+    {
+      "streamId": 9110,
+      "name": "Title 18 UHD",
+      "providerId": 4,
+      "provider": "Provider B",
+      "status": "dead",
+      "probedAt": 1793866976641,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 5XX Server Error reply",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": []
+    },
+    {
+      "streamId": 7603,
+      "name": "Title 19 FHD",
+      "providerId": 7,
+      "provider": "Provider A",
+      "status": "dead",
+      "probedAt": 1793867325327,
+      "deadStreak": 7,
+      "error": "http://podium.example Server returned 404 Not Found",
+      "bitrateKbps": 0,
+      "height": 0,
+      "channels": []
+    },
+    {
+      "streamId": 15394,
+      "name": "Title 7",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838014683,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 465,
+          "name": "Title 7",
+          "groupId": 645,
+          "rank": 12
+        }
+      ]
+    },
+    {
+      "streamId": 15432,
+      "name": "Title 1",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838088020,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 502,
+          "name": "Title 1",
+          "groupId": 645,
+          "rank": 4
+        }
+      ]
+    },
+    {
+      "streamId": 15385,
+      "name": "Title 20",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838096838,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 460,
+          "name": "Title 2",
+          "groupId": 645,
+          "rank": 11
+        }
+      ]
+    },
+    {
+      "streamId": 15390,
+      "name": "Title 20",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838100253,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 460,
+          "name": "Title 2",
+          "groupId": 645,
+          "rank": 12
+        }
+      ]
+    },
+    {
+      "streamId": 15384,
+      "name": "Title 21",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838104768,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 459,
+          "name": "Title 3",
+          "groupId": 645,
+          "rank": 11
+        }
+      ]
+    },
+    {
+      "streamId": 15389,
+      "name": "Title 21",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838108286,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 459,
+          "name": "Title 3",
+          "groupId": 645,
+          "rank": 12
+        }
+      ]
+    },
+    {
+      "streamId": 15383,
+      "name": "Title 22",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838125431,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 458,
+          "name": "Title 4",
+          "groupId": 645,
+          "rank": 11
+        }
+      ]
+    },
+    {
+      "streamId": 8143,
+      "name": "Title 8",
+      "providerId": 4,
+      "provider": "Provider B",
+      "status": "black",
+      "probedAt": 1793838130456,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 177.3,
+      "height": 720,
+      "channels": [
+        {
+          "id": 1294,
+          "name": "Title 8",
+          "groupId": 645,
+          "rank": 11
+        }
+      ]
+    },
+    {
+      "streamId": 15388,
+      "name": "Title 22",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838132484,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 458,
+          "name": "Title 4",
+          "groupId": 645,
+          "rank": 12
+        }
+      ]
+    },
+    {
+      "streamId": 15382,
+      "name": "Title 23",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838143420,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 457,
+          "name": "Title 5",
+          "groupId": 645,
+          "rank": 11
+        }
+      ]
+    },
+    {
+      "streamId": 15387,
+      "name": "Title 23",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838147731,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 457,
+          "name": "Title 5",
+          "groupId": 645,
+          "rank": 12
+        }
+      ]
+    },
+    {
+      "streamId": 15398,
+      "name": "Title 6",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838160979,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 1375,
+          "name": "Title 6",
+          "groupId": 645,
+          "rank": 11
+        }
+      ]
+    },
+    {
+      "streamId": 15190,
+      "name": "Title 9 4K",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838262136,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 1303,
+          "name": "Title 9",
+          "groupId": 875,
+          "rank": 8
+        }
+      ]
+    },
+    {
+      "streamId": 15191,
+      "name": "Title 9 4K",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838264660,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 1303,
+          "name": "Title 9",
+          "groupId": 875,
+          "rank": 9
+        }
+      ]
+    },
+    {
+      "streamId": 15203,
+      "name": "Title 9",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838268992,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 1303,
+          "name": "Title 9",
+          "groupId": 875,
+          "rank": 10
+        }
+      ]
+    },
+    {
+      "streamId": 15270,
+      "name": "Title 10",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838440471,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 1385,
+          "name": "Title 10",
+          "groupId": 877,
+          "rank": 6
+        }
+      ]
+    },
+    {
+      "streamId": 14996,
+      "name": "Title 11 4K",
+      "providerId": 9,
+      "provider": "Provider C",
+      "status": "black",
+      "probedAt": 1793838476126,
+      "deadStreak": 0,
+      "error": "",
+      "bitrateKbps": 191.2,
+      "height": 1080,
+      "channels": [
+        {
+          "id": 498,
+          "name": "Title 11",
+          "groupId": 643,
+          "rank": 7
+        }
+      ]
+    }
+  ],
+  "entryTotal": 26,
+  "truncated": false,
+  "cacheUnavailable": false
+}
