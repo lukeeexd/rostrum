@@ -46,6 +46,9 @@ export const orUnnamed = (name: string | null | undefined) => name || "(unnamed)
 
 export const formatInt = (n: number | null | undefined) => (n == null ? "—" : integer.format(n));
 
+/** "1 flip", "3 flips", "2 stretches". */
+export const plural = (n: number, one: string, many = `${one}s`) => `${formatInt(n)} ${n === 1 ? one : many}`;
+
 /** Share of `part` in `whole` as 0–100, 0 when there is no whole. */
 export const percent = (part: number, whole: number) => (whole > 0 ? Math.min(100, Math.max(0, (part / whole) * 100)) : 0);
 

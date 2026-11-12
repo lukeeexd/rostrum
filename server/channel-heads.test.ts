@@ -9,7 +9,7 @@ const TICK = SEEN_FOR_MS;
 
 /** A walk at `walkedAt` where channel 1 serves `first` (stream id, status), or nothing. */
 function walk(first: [number, StreamStatus] | null, walkedAt = 0): StreamIndex {
-  const streams = new Map(first ? [[first[0], { streamId: first[0], name: `S${first[0]}`, provider: "Provider A", channelId: 1, channelName: "C", lastSoak: null }]] : []);
+  const streams = new Map(first ? [[first[0], { streamId: first[0], name: `S${first[0]}`, provider: "Provider A", channelId: 1, channelName: "C", lastSoak: null, probedAt: null, status: first[1] }]] : []);
   return {
     walkedAt,
     source: "previews",

@@ -61,6 +61,18 @@ export interface PodiumVerdicts {
   streams?: (Omit<PodiumPreviewStream, "raw" | "currentRank"> & { name?: string | null })[];
 }
 
+/** /api/probe-history (Podium 1.18+): each stream's recent probes, newest first, kept by Podium for 30 days. */
+export interface PodiumProbeHistory {
+  fetchedAt?: number;
+  /** True when Podium could not read its store: `streams` is then empty. */
+  cacheUnavailable?: boolean;
+  /** Streams by id; one with no probe in range is left out. */
+  streams?: {
+    id?: number;
+    probes?: { probedAt?: number; alive?: boolean | null; black?: boolean | null; lowBitrate?: boolean | null; bitrateKbps?: number | null }[];
+  }[];
+}
+
 /** /api/streams: the catalogue searched by name, grouped under normalised names. */
 export interface PodiumStreamSearch {
   query?: string;
@@ -111,6 +123,11 @@ export interface PodiumPreview {
 }
 
 const TIMEOUT_MS = 15_000;
+/** A probe-history read can carry a month of probes for 500 streams. */
+const HISTORY_TIMEOUT_MS = 60_000;
+/** Podium's limits on /api/probe-history: streams per request, and probes per stream. */
+export const PROBE_HISTORY_MAX_STREAMS = 500;
+export const PROBE_HISTORY_MAX_LIMIT = 100;
 
 export function createPodiumClient({ upstream, token, fetch }: { upstream: URL; token?: string; fetch: Fetch }) {
   const headers: Record<string, string> = token ? { authorization: `Bearer ${token}` } : {};
@@ -125,6 +142,19 @@ export function createPodiumClient({ upstream, token, fetch }: { upstream: URL; 
     /** Every managed stream's cached verdict in one call; a Podium without it answers 404. */
     verdicts: (signal?: AbortSignal) =>
       fetchJson<PodiumVerdicts>(fetch, new URL("/api/verdicts", upstream), { headers, timeoutMs: TIMEOUT_MS, signal }),
+
+    /**
+     * Recent probes (newest first) of the given streams, or of every stream
+     * when none are given; only those after `since` when it is set. A Podium
+     * without it answers 404.
+     */
+    probeHistory: ({ streams = [], since }: { streams?: number[]; since?: number } = {}, signal?: AbortSignal) => {
+      const url = new URL("/api/probe-history", upstream);
+      for (const id of streams) url.searchParams.append("stream", String(id));
+      if (since != null) url.searchParams.set("since", String(Math.max(0, Math.floor(since))));
+      url.searchParams.set("limit", String(PROBE_HISTORY_MAX_LIMIT));
+      return fetchJson<PodiumProbeHistory>(fetch, url, { headers, timeoutMs: HISTORY_TIMEOUT_MS, signal });
+    },
 
     /** Stream states, primary health and freshness: what the history snapshots record. */
     stats: (signal?: AbortSignal) =>

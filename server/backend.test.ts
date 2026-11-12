@@ -187,6 +187,13 @@ describe("/api/rostrum/history", () => {
     expect(fetch).not.toHaveBeenCalled();
   });
 
+  it("serves flaky streams over 30 days by default, refusing odd ranges", async () => {
+    const { app } = setup(podiumOk);
+    const body = await (await app.request("/api/rostrum/flaky")).json();
+    expect(body).toMatchObject({ enabled: false, range: "30d", podiumHistory: false, streams: [], providers: [] });
+    expect((await app.request("/api/rostrum/flaky?range=1y")).status).toBe(400);
+  });
+
   it("can be closed (the dev server does this on restart)", () => {
     const { app } = setup(() => Response.json({}));
     expect(() => app.close()).not.toThrow();

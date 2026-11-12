@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import type { PodiumClient, PodiumPreview, PodiumState, PodiumVerdicts } from "./podium";
-import { createIndexLoader, indexFromVerdicts, VERDICTS_RECHECK_MS, VERSION_CHECK_MS, walkPreviews } from "./streams-index";
+import { ROUTE_RECHECK_MS, VERSION_CHECK_MS } from "./route-support";
+import { createIndexLoader, indexFromVerdicts, walkPreviews } from "./streams-index";
 import { UpstreamError } from "./upstream";
 
 const state: PodiumState = {
@@ -117,12 +118,12 @@ describe("createIndexLoader", () => {
     t += 5 * 60_000;
     expect((await load()).source).toBe("verdicts");
 
-    // A Podium still without it is asked again after VERDICTS_RECHECK_MS even at the same version.
+    // A Podium still without it is asked again after ROUTE_RECHECK_MS even at the same version.
     const q = podium({ hasVerdicts: false, version: "1.17.0" });
     let u = 0;
     const loadQ = createIndexLoader(q, () => u, () => {});
     await loadQ();
-    u += VERDICTS_RECHECK_MS;
+    u += ROUTE_RECHECK_MS;
     await loadQ();
     expect(q.verdicts).toHaveBeenCalledTimes(2);
   });

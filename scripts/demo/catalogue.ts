@@ -196,3 +196,43 @@ export const allStreams = (groups: DemoGroup[]) => {
   return [...seen.values()];
 };
 export const playable = (s: DemoStream) => s.status === "alive" || s.status === "low_bitrate";
+
+/** How likely each provider's streams are to come and go between probes. */
+const FLAKY: Record<ProviderName, number> = { "Provider A": 0.04, "Provider B": 0.16, "Provider C": 0.07 };
+
+export interface DemoProbe {
+  probedAt: number;
+  alive: boolean;
+  black: boolean;
+  lowBitrate: boolean;
+  bitrateKbps: number;
+}
+
+/**
+ * A stream's last 30 days of probes as Podium's probe history would hold
+ * them, newest first, ending with its current verdict: a healthy stream about
+ * once a day, a broken one every few hours. A few streams per provider come
+ * and go; a dead one was usually alive until a few probes ago.
+ */
+export function probeHistoryOf(s: DemoStream, now: number): DemoProbe[] {
+  if (s.probedAt == null || s.status === "unprobed") return [];
+  const rnd = random(s.id * 7919 + 17);
+  const flaky = rnd() < FLAKY[s.provider];
+  const probe = (status: Exclude<DemoStatus, "unprobed">, probedAt: number): DemoProbe => ({
+    probedAt,
+    alive: status !== "dead",
+    black: status === "black",
+    lowBitrate: status === "low_bitrate",
+    bitrateKbps: status === "dead" || status === "black" ? 0 : status === "low_bitrate" ? 420 : s.bitrateKbps || 4000,
+  });
+  const out: DemoProbe[] = [];
+  let status: Exclude<DemoStatus, "unprobed"> = s.status;
+  for (let t = s.probedAt, i = 0; t > now - 30 * 24 * HOUR && i < 100; i++) {
+    out.push(probe(status, t));
+    const broken = status === "dead" || status === "black";
+    t -= Math.round(broken ? (4 + rnd() * 4) * HOUR : (18 + rnd() * 10) * HOUR);
+    if (flaky && rnd() < 0.2) status = broken ? "alive" : rnd() < 0.8 ? "dead" : "black";
+    else if (!flaky && broken && i >= 2 && rnd() < 0.4) status = "alive";
+  }
+  return out;
+}

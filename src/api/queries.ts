@@ -173,6 +173,18 @@ export const connectLogQuery = (range: HistoryRange) =>
 
 export const useConnectLog = (range: HistoryRange) => useQuery(connectLogQuery(range));
 
+/** Flaky streams: the probe log grows on the same 5-minute beat. */
+export const flakyQuery = (range: HistoryRange) =>
+  queryOptions({
+    queryKey: ["rostrum", "flaky", range],
+    queryFn: ({ signal }) => api.flaky(range, signal),
+    refetchInterval: 5 * 60_000,
+    staleTime: 60_000,
+    placeholderData: keepPreviousData,
+  });
+
+export const useFlaky = (range: HistoryRange) => useQuery(flakyQuery(range));
+
 /** Problem channels: from the shared preview walk, which is reused for a minute. */
 export const problemsQuery = queryOptions({
   queryKey: ["rostrum", "problems"],

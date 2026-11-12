@@ -13,6 +13,7 @@ import {
   type ChannelHistoryResponse,
   type ConnectEvent,
   type ConnectLogResponse,
+  type FlakyResponse,
   type SoakRecord,
   type SoaksResponse,
   type StreamState,
@@ -23,6 +24,9 @@ import { channelView, openHeadsTable } from "./channel-heads";
 import { openConnectTable } from "./connect-log";
 import { summariseConnect } from "./connect-summary";
 import { openSoakTable } from "./soaks";
+import { channelProbes, projectFlaky } from "./flaky";
+import type { ProbeBatch } from "./probe-feed";
+import { openProbesTable } from "./stream-probes";
 import { timeIndexed } from "./sqlite";
 import type { StreamIndex } from "./streams-index";
 
@@ -148,6 +152,7 @@ export function openHistoryStore(file: string) {
   const soaks = openSoakTable(db);
   const connect = openConnectTable(db);
   const heads = openHeadsTable(db);
+  const probes = openProbesTable(db);
   const insert = db.prepare("INSERT OR REPLACE INTO snapshots (t, data) VALUES (?, ?)");
   const rows = timeIndexed(db, { table: "snapshots", column: "t", orderBy: "t" });
   return {
@@ -159,6 +164,7 @@ export function openHistoryStore(file: string) {
     soaks,
     connect,
     heads,
+    probes,
     close: () => db.close(),
   };
 }
@@ -184,6 +190,8 @@ export interface HistoryDeps {
   connectEvents: () => Promise<ConnectEvent[]>;
   /** The preview walk, for each channel's slot 1; optional, so tests can leave it out. */
   walk?: () => Promise<StreamIndex>;
+  /** Probes to log (server/probe-feed.ts), committed once saved; optional, so tests can leave it out. */
+  probes?: () => Promise<ProbeBatch>;
   now?: () => number;
   log?: (message: string) => void;
 }
@@ -209,7 +217,7 @@ function onceLogger(log: (message: string) => void, what: string) {
  * missing or unwritable database disables history with a reason instead of
  * stopping the server; a failed step is logged (once per kind) and skipped.
  */
-export function createHistory({ file, stats, providers, problems, soaks, connectEvents, walk, now = Date.now, log = console.warn }: HistoryDeps) {
+export function createHistory({ file, stats, providers, problems, soaks, connectEvents, walk, probes, now = Date.now, log = console.warn }: HistoryDeps) {
   let store: HistoryStore | undefined;
   let reason: string | undefined;
   if (!file) {
@@ -257,17 +265,28 @@ export function createHistory({ file, stats, providers, problems, soaks, connect
     logStep("soak log update", soaks, (s) => s.soaks),
     logStep("Connect log update", connectEvents, (s) => s.connect),
     ...(walk ? [logStep("channel log update", walk, (s) => s.heads)] : []),
+    ...(probes
+      ? [
+          logStep("probe log update", probes, (s) => ({
+            add: (batch: ProbeBatch) => {
+              s.probes.add(batch.probes);
+              batch.commit();
+            },
+            pruneBefore: s.probes.pruneBefore,
+          })),
+        ]
+      : []),
   ];
   async function sample(): Promise<void> {
     await Promise.all(steps.map((step) => step()));
   }
 
   /** A log's summary over a range, from Rostrum's own record (no Podium call); `summarise([])` when there is no store. */
-  function readLog<R>(range: HistoryRange, table: (s: HistoryStore) => LogTable, summarise: (rows: never[]) => R) {
+  function readLog<R>(range: HistoryRange, table: (s: HistoryStore) => LogTable, summarise: (rows: never[], w: { from: number; to: number }) => R) {
     const w = windowOf(range);
-    if (!store) return { ...w, enabled: false, reason, since: null, ...summarise([]) };
+    if (!store) return { ...w, enabled: false, reason, since: null, ...summarise([], w) };
     const t = table(store);
-    return { ...w, enabled: true, since: t.since(), ...summarise(t.between(w.from, w.to) as never[]) };
+    return { ...w, enabled: true, since: t.since(), ...summarise(t.between(w.from, w.to) as never[], w) };
   }
 
   let first: ReturnType<typeof setTimeout> | undefined;
@@ -313,15 +332,27 @@ export function createHistory({ file, stats, providers, problems, soaks, connect
      */
     readChannel(channelId: number, range: HistoryRange, onChannel: { streamIds?: number[]; name?: string | null } = {}): ChannelHistoryResponse {
       const w = windowOf(range);
-      if (!store) return { enabled: false, reason, ...channelView(channelId, w, { rows: [], since: null, soaks: [], connect: [] }) };
+      if (!store) return { enabled: false, reason, streams: [], ...channelView(channelId, w, { rows: [], since: null, soaks: [], connect: [] }) };
       const log = {
         rows: store.heads.between(channelId, w.from, w.to),
         since: store.heads.since(channelId),
         soaks: store.soaks.between(w.from, w.to),
         connect: store.connect.between(w.from, w.to),
       };
-      return { enabled: true, ...channelView(channelId, w, log, onChannel) };
+      const streamIds = onChannel.streamIds ?? [];
+      const streams = channelProbes(store.probes.between(w.from, w.to, streamIds), streamIds, w.from, w.to);
+      return { enabled: true, streams, ...channelView(channelId, w, log, onChannel) };
     },
+    /**
+     * Streams that flipped between playable and broken over a range, and each
+     * provider's share of flaky streams. `index` (when the walk answered)
+     * names them and finds their channels; `podiumHistory` says whether
+     * Podium's own probe history is feeding the log.
+     */
+    readFlaky: (range: HistoryRange, index: StreamIndex | null, podiumHistory: boolean): FlakyResponse => ({
+      ...readLog(range, (s) => s.probes, (rows, w) => projectFlaky(rows, w.from, w.to, index)),
+      podiumHistory,
+    }),
   };
 }
 

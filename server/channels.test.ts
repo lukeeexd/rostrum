@@ -29,6 +29,7 @@ function podium(state: unknown = statefixture, preview: unknown = previewFixture
     connectStatus: vi.fn(async () => ({})),
     health: vi.fn(async () => ({ version: "1.17.0" })),
     verdicts: vi.fn(async () => ({})),
+    probeHistory: vi.fn(async () => ({})),
   };
 }
 

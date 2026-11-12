@@ -140,7 +140,7 @@ export function channelView(
   window: Pick<ChannelHistoryResponse, "range" | "from" | "to">,
   log: { rows: HeadRow[]; since: number | null; soaks: SoakRecord[]; connect: ConnectEvent[] },
   { streamIds = [], name = null }: { streamIds?: number[]; name?: string | null } = {},
-): Omit<ChannelHistoryResponse, "enabled" | "reason"> {
+): Omit<ChannelHistoryResponse, "enabled" | "reason" | "streams"> {
   const onChannel = new Set(streamIds);
   return {
     ...window,

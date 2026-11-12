@@ -190,3 +190,40 @@ describe("problem counts in snapshots", () => {
     h.close();
   });
 });
+
+describe("the probe log", () => {
+  it("logs probes on each tick and reads flaky streams and a channel's streams back from them", async () => {
+    const H = 3600_000;
+    const t = 10 * 24 * H;
+    const statuses = ["alive", "dead", "alive", "dead"] as const;
+    const commit = vi.fn();
+    const h = createHistory({
+      file: ":memory:",
+      stats: async () => stats,
+      providers: async () => providers,
+      soaks: async () => [],
+      connectEvents: async () => [],
+      probes: async () => ({
+        probes: [
+          ...statuses.map((status, i) => ({ streamId: 7, probedAt: t - (4 - i) * H, status, name: "Seven", provider: "Provider A" })),
+          { streamId: 8, probedAt: t - H, status: "alive" as const, name: "Eight", provider: "Provider A" },
+        ],
+        commit,
+      }),
+      now: () => t,
+    });
+    await h.sample();
+    expect(commit).toHaveBeenCalledOnce(); // only once they are saved
+    const flaky = h.readFlaky("24h", null, true);
+    expect(flaky).toMatchObject({ enabled: true, podiumHistory: true, probed: 2, flipping: 1, flaky: 1 });
+    expect(flaky.streams[0]).toMatchObject({ streamId: 7, name: "Seven", flips: 3, status: "dead" });
+    expect(flaky.providers).toEqual([{ name: "Provider A", probed: 2, flaky: 1, share: 0.5 }]);
+
+    const channel = h.readChannel(1, "24h", { streamIds: [8, 7] });
+    expect(channel.streams.map((s) => [s.streamId, s.flips, s.probes])).toEqual([
+      [8, 0, 1],
+      [7, 3, 4],
+    ]);
+    h.close();
+  });
+});

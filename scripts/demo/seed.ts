@@ -26,7 +26,7 @@ export function indexOf(groups: DemoGroup[], at: number): StreamIndex {
       index.channels.push({ id: ch.id, name: ch.name, group: g.name, groupId: g.id, streams: ch.streams.map((s) => ({ streamId: s.id, status: s.status })) });
       for (const s of ch.streams) {
         if (!index.streams.has(s.id)) {
-          index.streams.set(s.id, { streamId: s.id, name: s.name, provider: s.provider, channelId: ch.id, channelName: ch.name, lastSoak: s.soak });
+          index.streams.set(s.id, { streamId: s.id, name: s.name, provider: s.provider, channelId: ch.id, channelName: ch.name, lastSoak: s.soak, probedAt: s.probedAt, status: s.status });
         }
       }
     }

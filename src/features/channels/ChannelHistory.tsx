@@ -1,7 +1,7 @@
 import { RiArrowRightLine } from "@remixicon/react";
-import { useState, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { useChannelHistory } from "@/api/queries";
-import type { ChannelHistoryResponse, HeadChange, HeadSegment, HistoryRange, SoakRecord } from "@/api/types";
+import type { ChannelHistoryResponse, HeadChange, HeadSegment, HistoryRange, SoakRecord, StreamProbeHistory } from "@/api/types";
 import { Empty } from "@/components/shared/Card";
 import { Notice } from "@/components/shared/Notice";
 import { Paged } from "@/components/shared/Paged";
@@ -12,34 +12,48 @@ import { TONE_FILL, ToneChip } from "@/components/shared/tone";
 import { ConnectEventList } from "@/features/connect/ConnectEvents";
 import { VERDICT_LABEL, VERDICT_TONE } from "@/features/soak/lib/soak";
 import { useNow } from "@/hooks/useNow";
-import { formatAgo, formatClock, formatMs, formatPercent, orUnnamed } from "@/lib/format";
+import { formatAgo, formatClock, formatMs, formatPercent, orUnnamed, plural } from "@/lib/format";
 import { HISTORY_RANGES, rangeLabel } from "@/lib/ranges";
 import { formatSoak } from "@/lib/soak";
+import { STATUS_LABEL, STATUS_TONE } from "@/lib/streamStatus";
+import type { Tone } from "@/lib/tone";
+import { flipsAndProbes } from "@/features/flaky/lib/flaky";
 import { cx } from "@/utils/cx";
 import { HEAD_LABEL, HEAD_TONE, headName, placeSegment } from "./lib/history";
 
 /**
  * One channel over time, from Rostrum's own logs: what slot 1 served and
- * whether it played, when that changed, and the soaks and Connect events
- * that concern it.
+ * whether it played, when that changed, what each of its streams' probes
+ * found, and the soaks and Connect events that concern it. The range is the
+ * panel's, so the streams table's Flips column covers the same stretch.
  */
-export function ChannelHistory({ channelId }: { channelId: number }) {
-  const [range, setRange] = useState<HistoryRange>("7d");
+export function ChannelHistory({
+  channelId,
+  range,
+  onRange,
+  names,
+}: {
+  channelId: number;
+  range: HistoryRange;
+  onRange: (range: HistoryRange) => void;
+  /** Stream names by id, from the streams table. */
+  names?: ReadonlyMap<number, string>;
+}) {
   const query = useChannelHistory(channelId, range);
   return (
     <section aria-label="Channel history" className="flex flex-col gap-3 border-t border-separator-border pt-4">
       <header className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-body-medium text-text-secondary">History</h3>
-        <SegmentedControl<HistoryRange> label="History range" value={range} onChange={setRange} options={HISTORY_RANGES} />
+        <SegmentedControl<HistoryRange> label="History range" value={range} onChange={onRange} options={HISTORY_RANGES} />
       </header>
       <QueryState query={query} skeleton={<CardSkeleton />}>
-        {(data) => <HistoryBody key={range} data={data} />}
+        {(data) => <HistoryBody key={range} data={data} names={names} />}
       </QueryState>
     </section>
   );
 }
 
-function HistoryBody({ data }: { data: ChannelHistoryResponse }) {
+function HistoryBody({ data, names }: { data: ChannelHistoryResponse; names?: ReadonlyMap<number, string> }) {
   const now = useNow(30_000);
   if (!data.enabled) {
     return <Notice tone="info">{data.reason} A channel&apos;s history is kept in the same database as Trends.</Notice>;
@@ -64,6 +78,8 @@ function HistoryBody({ data }: { data: ChannelHistoryResponse }) {
           </>
         )}
       </div>
+
+      <StreamProbes streams={data.streams} names={names} from={data.from} to={data.to} range={data.range} />
 
       {data.changes.length > 0 && (
         <Section title="Slot 1 changes" items={data.changes}>
@@ -111,44 +127,131 @@ function Section<T>({ title, items, empty, children }: { title: string; items: T
   );
 }
 
-/** Slot 1 across the window: one coloured stretch per stream and state, blank where nothing was recorded. */
+/** Stretches of [from, to] as coloured spans on one bar, blank where there are none; `label` sums it up for screen readers. */
+function SegmentBar<S extends { from: number; to: number }>({
+  segments,
+  from,
+  to,
+  label,
+  tone,
+  title,
+  className,
+}: {
+  segments: S[];
+  from: number;
+  to: number;
+  label: string;
+  tone: (s: S) => Tone;
+  title: (s: S) => string;
+  className?: string;
+}) {
+  return (
+    <div role="img" aria-label={label} className={cx("relative h-3 w-full overflow-hidden rounded-full bg-background-inner-default", className)}>
+      {segments.map((s) => {
+        const { left, width } = placeSegment(s, from, to);
+        return (
+          <span
+            key={s.from}
+            title={title(s)}
+            className={cx("absolute inset-y-0", TONE_FILL[tone(s)])}
+            style={{ left: `${left}%`, width: `max(${width}%, 2px)` }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+/** What each colour on a bar means. */
+function SegmentKey({ label, items }: { label: string; items: { tone: Tone; text: string }[] }) {
+  return (
+    <ul aria-label={label} className="flex flex-wrap gap-x-3 gap-y-1 text-caption-1-medium text-text-tertiary">
+      {items.map((i) => (
+        <li key={i.text} className="flex items-center gap-1.5">
+          <span className={cx("size-2 rounded-full", TONE_FILL[i.tone])} aria-hidden />
+          {i.text}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /** A short summary for screen readers; the detail is in the "Slot 1 changes" list below. */
 function timelineLabel(segments: HeadSegment[], from: number, to: number): string {
   const last = segments.at(-1)!;
-  return `What slot 1 served from ${formatClock(from)} to ${formatClock(to)}: ${segments.length} ${
-    segments.length === 1 ? "stretch" : "stretches"
-  } recorded, the latest ${headName(last)}, ${HEAD_LABEL(last.status)}.`;
+  return `What slot 1 served from ${formatClock(from)} to ${formatClock(to)}: ${plural(segments.length, "stretch", "stretches")} recorded, the latest ${headName(last)}, ${HEAD_LABEL(last.status)}.`;
 }
 
+/** Slot 1 across the window: one coloured stretch per stream and state, blank where nothing was recorded. */
 function Timeline({ segments, from, to }: { segments: HeadSegment[]; from: number; to: number }) {
   const states = [...new Set(segments.map((s) => s.status))];
   return (
     <div className="flex flex-col gap-1.5">
-      <div
-        role="img"
-        aria-label={timelineLabel(segments, from, to)}
-        className="relative h-3 w-full overflow-hidden rounded-full bg-background-inner-default"
-      >
-        {segments.map((s) => {
-          const { left, width } = placeSegment(s, from, to);
-          return (
-            <span
-              key={s.from}
-              title={`${headName(s)} · ${HEAD_LABEL(s.status)} · ${formatClock(s.from)}–${formatClock(s.to)}`}
-              className={cx("absolute inset-y-0", TONE_FILL[HEAD_TONE(s.status)])}
-              style={{ left: `${left}%`, width: `max(${width}%, 2px)` }}
-            />
-          );
-        })}
-      </div>
-      <ul aria-label="Timeline key" className="flex flex-wrap gap-x-3 gap-y-1 text-caption-1-medium text-text-tertiary">
-        {states.map((s) => (
-          <li key={s} className="flex items-center gap-1.5">
-            <span className={cx("size-2 rounded-full", TONE_FILL[HEAD_TONE(s)])} aria-hidden />
-            {HEAD_LABEL(s)}
-          </li>
-        ))}
-      </ul>
+      <SegmentBar
+        segments={segments}
+        from={from}
+        to={to}
+        label={timelineLabel(segments, from, to)}
+        tone={(s) => HEAD_TONE(s.status)}
+        title={(s) => `${headName(s)} · ${HEAD_LABEL(s.status)} · ${formatClock(s.from)}–${formatClock(s.to)}`}
+      />
+      <SegmentKey label="Timeline key" items={states.map((s) => ({ tone: HEAD_TONE(s), text: HEAD_LABEL(s) }))} />
+    </div>
+  );
+}
+
+/** Each stream's probes across the window: one strip per stream, coloured by what each probe found until the next. */
+function StreamProbes({
+  streams,
+  names,
+  from,
+  to,
+  range,
+}: {
+  streams: StreamProbeHistory[];
+  names?: ReadonlyMap<number, string>;
+  from: number;
+  to: number;
+  range: HistoryRange;
+}) {
+  const logged = streams.filter((s) => s.segments.length > 0);
+  const states = [...new Set(logged.flatMap((s) => s.segments.map((g) => g.status)))];
+  return (
+    <div className="flex flex-col gap-2">
+      <h4 className="text-caption-1-medium text-text-tertiary">Probes of its streams</h4>
+      {logged.length === 0 ? (
+        <Empty>No probes of its streams logged in the last {rangeLabel(range)} yet. Podium probes each about once a day.</Empty>
+      ) : (
+        <>
+          <ul aria-label="Probes of its streams" className="flex flex-col gap-2">
+            {logged.map((s) => {
+              const name = names?.get(s.streamId) || `stream ${s.streamId}`;
+              return (
+                <li key={s.streamId} className="grid items-center gap-x-3 gap-y-1 sm:grid-cols-[minmax(0,16rem)_minmax(0,1fr)_auto]">
+                  <span className="truncate text-body-2-medium text-text-secondary" title={name}>
+                    {name}
+                  </span>
+                  <SegmentBar
+                    segments={s.segments}
+                    from={from}
+                    to={to}
+                    label={`${name}: ${flipsAndProbes(s)}, latest ${STATUS_LABEL[s.segments.at(-1)!.status]}.`}
+                    tone={(g) => STATUS_TONE[g.status]}
+                    title={(g) => `${STATUS_LABEL[g.status]} · ${formatClock(g.from)}–${formatClock(g.to)}`}
+                    className="h-2.5"
+                  />
+                  <span className="text-caption-1-medium text-text-tertiary tabular-nums">{flipsAndProbes(s)}</span>
+                </li>
+              );
+            })}
+          </ul>
+          <SegmentKey label="Probe key" items={states.map((st) => ({ tone: STATUS_TONE[st], text: STATUS_LABEL[st] }))} />
+          <p className="text-body-2-medium text-text-tertiary">
+            Each stretch runs from one probe to the next. A flip is a change between playable (alive, low bitrate) and broken
+            (dead, black); blank is before the first probe Rostrum has.
+          </p>
+        </>
+      )}
     </div>
   );
 }

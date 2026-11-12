@@ -3,6 +3,7 @@ import {
   allChannels,
   allStreams,
   playable,
+  probeHistoryOf,
   PROVIDERS,
   random,
   type DemoChannel,
@@ -16,7 +17,7 @@ import {
  * catalogue; the re-check and soak queues accept requests and remember them
  * for the session. Response shapes follow Podium 1.17 (see
  * src/test/fixtures), plus the newer `channels` re-check scope, the
- * preview's `last*` media fields and GET /api/verdicts.
+ * preview's `last*` media fields, GET /api/verdicts and GET /api/probe-history.
  */
 
 const MIN = 60_000;
@@ -318,6 +319,23 @@ export function createDemoPodium(groups: DemoGroup[], now: () => number = Date.n
       }),
     }),
   );
+
+  // Each stream's recent probes, newest first (Podium 1.18's GET /api/probe-history).
+  app.get("/api/probe-history", (c) => {
+    const ids = new Set(c.req.queries("stream")?.map(Number) ?? []);
+    const since = Number(c.req.query("since") ?? -1);
+    const limit = Number(c.req.query("limit") ?? 20);
+    return c.json({
+      fetchedAt: now(),
+      cacheUnavailable: false,
+      retention: { maxAgeMs: 30 * 24 * HOUR, perStream: 100 },
+      streams: streams
+        .filter((s) => ids.size === 0 || ids.has(s.id))
+        .map((s) => ({ id: s.id, probes: probeHistoryOf(s, now()).filter((p) => p.probedAt > since).slice(0, limit) }))
+        .filter((s) => s.probes.length > 0)
+        .sort((a, b) => a.id - b.id),
+    });
+  });
 
   app.get("/api/streams", (c) => {
     const q = (c.req.query("q") ?? "").toLowerCase();

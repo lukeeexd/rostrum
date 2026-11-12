@@ -1,4 +1,4 @@
-import { useProviders } from "@/api/queries";
+import { useFlaky, useProviders } from "@/api/queries";
 import type { ProviderStats } from "@/api/types";
 import { Card, Empty } from "@/components/shared/Card";
 import { QueryState } from "@/components/shared/QueryState";
@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from 
 import { cx } from "@/utils/cx";
 import { bestIndexes } from "@/lib/best";
 import { orUnnamed } from "@/lib/format";
-import { cellText, comparisonSections, type Section } from "./lib/comparison";
+import { cellText, comparisonSections, STABILITY_RANGE, type Section } from "./lib/comparison";
 
 /**
  * Providers side by side, from Podium's own metrics: who serves channels
@@ -15,6 +15,9 @@ import { cellText, comparisonSections, type Section } from "./lib/comparison";
  */
 export function ProvidersPage() {
   const query = useProviders();
+  // Rostrum's probe log adds a Stability row when it has one; the page never waits for it.
+  const flaky = useFlaky(STABILITY_RANGE).data;
+  const stability = flaky?.enabled ? flaky.providers : null;
   return (
     <QueryState query={query}>
       {({ providers }) =>
@@ -29,7 +32,7 @@ export function ProvidersPage() {
               each row is marked.
             </p>
             <div className="grid items-start gap-4 2xl:grid-cols-2">
-              {comparisonSections(providers).map((section) => (
+              {comparisonSections(providers, stability).map((section) => (
                 <SectionCard key={section.id} section={section} providers={providers} />
               ))}
             </div>

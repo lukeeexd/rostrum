@@ -32,6 +32,8 @@ function index(channels: IndexedChannel[]): StreamIndex {
         channelId: c.id,
         channelName: c.name,
         lastSoak: null,
+        probedAt: null,
+        status: s.status,
       });
     }
   }

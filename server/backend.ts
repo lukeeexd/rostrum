@@ -10,6 +10,7 @@ import { createConnectEvents, NAMES_DEADLINE_MS, type ConnectEventsService } fro
 import { collectSoaks } from "./soaks";
 import { untilAborted, withinOrNull } from "./load";
 import { problemCounts, projectProblems } from "./problems";
+import { createProbeFeed, type ProbeFeed } from "./probe-feed";
 import { createStreamIndex, type StreamIndex } from "./streams-index";
 import { classify, UpstreamError, type Fetch } from "./upstream";
 import type { HistoryRange } from "../src/api/types";
@@ -29,6 +30,7 @@ export function createBackend(config: ServerConfig, fetch: Fetch = globalThis.fe
   // One preview walk, shared by the soak log and the names on Connect events.
   const streams = createStreamIndex(podium);
   const connect = createConnectEvents({ podium, streams });
+  const probes = createProbeFeed(podium, streams);
   // Samples on a timer only when HISTORY_DB is set; tests and bare dev runs stay timer-free.
   const history = createHistory({
     file: config.historyDb,
@@ -38,11 +40,12 @@ export function createBackend(config: ServerConfig, fetch: Fetch = globalThis.fe
     soaks: async () => collectSoaks(await streams()),
     connectEvents: async () => (await connect.recent(undefined, { waitForNames: true })).events,
     walk: streams,
+    probes: probes.probes,
   });
   history.start();
 
   const app = new Hono();
-  app.route("/api/rostrum", rostrumRoutes({ channels, catalogue, history, connect, streams }));
+  app.route("/api/rostrum", rostrumRoutes({ channels, catalogue, history, connect, streams, probes }));
   app.route("/", createProxy({ upstream: config.upstream, token: config.token, fetch }));
   // close() stops the history sampler and its database, e.g. when the Vite dev server restarts.
   return Object.assign(app, { close: () => history.close() });
@@ -59,9 +62,10 @@ interface Services {
   connect: ConnectEventsService;
   /** The shared preview walk. */
   streams: () => Promise<StreamIndex>;
+  probes: ProbeFeed;
 }
 
-function rostrumRoutes({ channels, catalogue, history, connect, streams }: Services) {
+function rostrumRoutes({ channels, catalogue, history, connect, streams, probes }: Services) {
   const app = new Hono();
   app.use("*", async (c, next) => {
     await next();
@@ -112,6 +116,8 @@ function rostrumRoutes({ channels, catalogue, history, connect, streams }: Servi
   app.get("/history", rangeRoute("7d", (r) => history.read(r)));
   app.get("/soaks", rangeRoute("24h", (r) => history.readSoaks(r)));
   app.get("/connect-log", rangeRoute("7d", (r) => history.readConnect(r)));
+  // Names and channels from the walk; the log alone still answers without it.
+  app.get("/flaky", rangeRoute("30d", async (r) => history.readFlaky(r, await withinOrNull(streams(), NAMES_DEADLINE_MS), probes.podiumHistory)));
 
   app.all("*", (c) => c.json({ error: "not_found" }, 404));
   return app;

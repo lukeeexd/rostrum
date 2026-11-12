@@ -29,21 +29,30 @@ describe("StreamsTable", () => {
   it("switches between the compact and full layouts without breaking (regression)", () => {
     const streams = [stream(1), stream(2)];
     const { rerender } = render(<StreamsTable streams={streams} now={2} wide={false} />, { wrapper });
-    expect(screen.getAllByRole("columnheader")).toHaveLength(11);
+    expect(screen.getAllByRole("columnheader")).toHaveLength(12);
     expect(screen.getAllByText("E-AC-3 5.1 · 384 kbps · 48 kHz")).toHaveLength(2);
 
     rerender(<StreamsTable streams={streams} now={2} wide />);
-    expect(screen.getAllByRole("columnheader")).toHaveLength(15);
+    expect(screen.getAllByRole("columnheader")).toHaveLength(16);
     expect(screen.getAllByText("E-AC-3")).toHaveLength(2);
     expect(screen.getAllByText("48 kHz")).toHaveLength(2);
 
     rerender(<StreamsTable streams={streams} now={2} wide={false} />);
-    expect(screen.getAllByRole("columnheader")).toHaveLength(11);
+    expect(screen.getAllByRole("columnheader")).toHaveLength(12);
   });
 
   it("right-aligns the numeric columns", () => {
     render(<StreamsTable streams={[stream(1)]} now={2} wide />, { wrapper });
     const num = screen.getAllByRole("columnheader").filter((h) => h.classList.contains("num")).map((h) => h.textContent);
-    expect(num).toEqual(["#", "Resolution", "FPS", "Bitrate", "Ch", "Audio rate", "Sample", "Probed"]);
+    expect(num).toEqual(["#", "Resolution", "FPS", "Bitrate", "Ch", "Audio rate", "Sample", "Probed", "Flips"]);
+  });
+});
+
+describe("StreamsTable flips", () => {
+  it("shows each stream's flips over the history range, marking flaky ones, and a dash without a log", () => {
+    render(<StreamsTable streams={[stream(1), stream(2), stream(3)]} now={2} wide={false} flips={new Map([[1, 3], [2, 0]])} />, { wrapper });
+    const cells = screen.getAllByRole("row").slice(1).map((r) => r.lastElementChild!);
+    expect(cells.map((c) => c.textContent)).toEqual(["3", "0", "—"]);
+    expect(cells[0].querySelector(".font-semibold")).not.toBeNull();
   });
 });

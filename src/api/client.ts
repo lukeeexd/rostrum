@@ -8,6 +8,7 @@ import type {
   Health,
   HistoryRange,
   HistoryResponse,
+  FlakyResponse,
   ProblemChannelsResponse,
   ProgressResponse,
   ProvidersResponse,
@@ -81,6 +82,7 @@ export const api = {
   connectLog: (range: HistoryRange, signal?: AbortSignal) =>
     request<ConnectLogResponse>(`/api/rostrum/connect-log?range=${range}`, { signal }),
   problems: get<ProblemChannelsResponse>("/api/rostrum/problems"),
+  flaky: (range: HistoryRange, signal?: AbortSignal) => request<FlakyResponse>(`/api/rostrum/flaky?range=${range}`, { signal }),
   channelGroups: get<ChannelGroupsResponse>("/api/rostrum/groups"),
   channelHistory: (channelId: number, range: HistoryRange, signal?: AbortSignal) =>
     request<ChannelHistoryResponse>(`/api/rostrum/channels/${channelId}/history?range=${range}`, { signal }),

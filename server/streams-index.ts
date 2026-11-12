@@ -4,6 +4,7 @@ import { projectSoak } from "./channels";
 import { createLimiter, shared } from "./load";
 import { id, num, str } from "./pick";
 import type { PodiumClient, PodiumPreviewStream, PodiumState, PodiumVerdicts } from "./podium";
+import { createRouteSupport, podiumVersion, routeMissing } from "./route-support";
 import { classify, UpstreamError } from "./upstream";
 
 /**
@@ -30,6 +31,9 @@ export interface IndexedStream {
   channelId: number;
   channelName: string | null;
   lastSoak: SoakResult | null;
+  /** When Podium last probed it (null if never), and what that probe found. */
+  probedAt: number | null;
+  status: StreamStatus;
 }
 
 /** A stream in one channel's list, in Dispatcharr's order. */
@@ -92,16 +96,15 @@ function buildIndex(rows: ChannelRows[], at: number, source: StreamIndex["source
     for (const s of streams) {
       const streamId = id(s.id);
       if (streamId == null) continue;
-      entries.push({
-        streamId,
-        status: streamStatus({
-          probedAt: num(s.lastProbedAt),
-          alive: typeof s.lastAlive === "boolean" ? s.lastAlive : null,
-          black: s.lastBlack === true,
-          lowBitrate: typeof s.lastLowBitrate === "boolean" ? s.lastLowBitrate : null,
-          bitrateKbps: num(s.lastBitrateKbps),
-        }),
+      const probedAt = num(s.lastProbedAt);
+      const status = streamStatus({
+        probedAt,
+        alive: typeof s.lastAlive === "boolean" ? s.lastAlive : null,
+        black: s.lastBlack === true,
+        lowBitrate: typeof s.lastLowBitrate === "boolean" ? s.lastLowBitrate : null,
+        bitrateKbps: num(s.lastBitrateKbps),
       });
+      entries.push({ streamId, status });
       if (index.streams.has(streamId)) continue;
       index.streams.set(streamId, {
         streamId,
@@ -110,6 +113,8 @@ function buildIndex(rows: ChannelRows[], at: number, source: StreamIndex["source
         channelId,
         channelName,
         lastSoak: projectSoak(s.lastSoak),
+        probedAt,
+        status,
       });
     }
     index.channels.push({ id: channelId, name: channelName ?? "", group, groupId, streams: entries });
@@ -175,14 +180,6 @@ export function indexFromVerdicts(state: PodiumState, verdicts: PodiumVerdicts, 
   return buildIndex(rows, at, "verdicts");
 }
 
-/** After a Podium says it has no /api/verdicts, ask again this long after, whatever its version. */
-export const VERDICTS_RECHECK_MS = 30 * 60_000;
-/** Meanwhile, look at its version at most this often, to notice an upgrade sooner. */
-export const VERSION_CHECK_MS = 5 * 60_000;
-
-/** A Podium without the route: 404, or 405 from a framework that knows the path but not the method. */
-const notSupported = (err: unknown) => err instanceof UpstreamError && (err.status === 404 || err.status === 405);
-
 /** An answer that is not the verdicts (say, a proxy's fallback page) counts as a Podium without the route. */
 const looksLikeVerdicts = (v: PodiumVerdicts) => Array.isArray(v?.channels) && Array.isArray(v?.streams);
 
@@ -191,9 +188,7 @@ const looksLikeVerdicts = (v: PodiumVerdicts) => Array.isArray(v?.channels) && A
  * previews otherwise:
  *
  * - A Podium without the route (404/405, or an answer that is not the
- *   verdicts) is remembered with its version, and asked again when that
- *   version changes (looked at every VERSION_CHECK_MS) or after
- *   VERDICTS_RECHECK_MS.
+ *   verdicts) is remembered and asked again later (server/route-support.ts).
  * - A Podium that has it but cannot answer this time (a timeout, an error,
  *   an unreadable cache) is walked for this read, and asked first again next
  *   time.
@@ -201,32 +196,21 @@ const looksLikeVerdicts = (v: PodiumVerdicts) => Array.isArray(v?.channels) && A
  * Which way it is reading is logged when that changes.
  */
 export function createIndexLoader(podium: PodiumClient, now: () => number = Date.now, log: (message: string) => void = console.log) {
-  let unsupported: { version: string | null; at: number; checkedAt: number } | null = null;
+  const support = createRouteSupport(podiumVersion(podium), now);
   let lastSource: StreamIndex["source"] | null = null;
   let lastFailure = "";
-  const version = () => podium.health().then((h) => h.version ?? null, () => null);
-
-  async function worthAsking(): Promise<boolean> {
-    if (!unsupported) return true;
-    const t = now();
-    if (t - unsupported.at >= VERDICTS_RECHECK_MS) return true;
-    if (t - unsupported.checkedAt < VERSION_CHECK_MS) return false;
-    unsupported.checkedAt = t;
-    return (await version()) !== unsupported.version;
-  }
 
   /** The index from /api/verdicts, or null to walk the previews this time. */
   async function fromVerdicts(state: PodiumState): Promise<StreamIndex | null> {
     try {
       const verdicts = await podium.verdicts();
       if (!looksLikeVerdicts(verdicts)) throw new UpstreamError("status", 404);
-      unsupported = null;
+      support.markFound();
       lastFailure = "";
       return indexFromVerdicts(state, verdicts, now());
     } catch (err) {
-      if (notSupported(err)) {
-        const t = now();
-        unsupported = { version: await version(), at: t, checkedAt: t };
+      if (routeMissing(err)) {
+        await support.markMissing();
       } else {
         const message = (err as Error).message;
         if (message !== lastFailure) log(`rostrum: /api/verdicts failed (${message}); reading each channel's preview instead`);
@@ -238,7 +222,7 @@ export function createIndexLoader(podium: PodiumClient, now: () => number = Date
 
   return async function load(): Promise<StreamIndex> {
     const state = await podium.state();
-    const index = ((await worthAsking()) ? await fromVerdicts(state) : null) ?? (await walkPreviews(podium, { state, now }));
+    const index = ((await support.worthAsking()) ? await fromVerdicts(state) : null) ?? (await walkPreviews(podium, { state, now }));
     if (index.source !== lastSource) {
       log(`rostrum: stream index from ${index.source === "verdicts" ? "Podium's /api/verdicts" : "each channel's preview"}`);
       lastSource = index.source;

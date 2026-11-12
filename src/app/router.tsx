@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import { ChannelsPage } from "@/features/channels/ChannelsPage";
 import { DeadPage } from "@/features/dead/DeadPage";
+import { FlakyPage } from "@/features/flaky/FlakyPage";
 import { HistoryPage } from "@/features/history/HistoryPage";
 import { TrendsPage } from "@/features/trends/TrendsPage";
 import { LivePage } from "@/features/live/LivePage";
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
           { path: "channels", element: <ChannelsPage /> },
           { path: "streams", element: <StreamsPage /> },
           { path: "problems", element: <ProblemsPage /> },
+          { path: "flaky", element: <FlakyPage /> },
           { path: "soak", element: <SoakPage /> },
           { path: "providers", element: <ProvidersPage /> },
           { path: "dead", element: <DeadPage /> },

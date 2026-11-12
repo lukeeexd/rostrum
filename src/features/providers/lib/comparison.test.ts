@@ -69,3 +69,23 @@ describe("comparisonSections", () => {
     expect(comparisonSections([provider({ deadReasons: {} })]).some((s) => s.id === "dead-reasons")).toBe(false);
   });
 });
+
+describe("the Stability row", () => {
+  const providers = [provider({ name: "A" }), provider({ name: "B" }), provider({ name: "C" })];
+  const flaky = [
+    { name: "A", probed: 50, flaky: 5, share: 0.1 },
+    { name: "B", probed: 40, flaky: 0, share: 0 },
+  ];
+
+  it("shows each provider's share of flaky streams from the probe log, lower being better", () => {
+    const stability = comparisonSections(providers, flaky).find((s) => s.id === "stability")!;
+    const [r] = stability.rows;
+    expect(providers.map((p) => cellText(r, p))).toEqual(["5 · 10%", "0 · 0%", "—"]);
+    expect([...bestIndexes(providers.map(r.value), r.better)]).toEqual([1]);
+  });
+
+  it("is left out without a probe log", () => {
+    expect(comparisonSections(providers).some((s) => s.id === "stability")).toBe(false);
+    expect(comparisonSections(providers, []).some((s) => s.id === "stability")).toBe(false);
+  });
+});

@@ -10,8 +10,8 @@ const index: StreamIndex = {
   source: "previews",
   channels: [],
   streams: new Map([
-    [8135, { streamId: 8135, name: "Arena Sports Golf HD", provider: "Provider A", channelId: 40, channelName: "Arena Sports Golf", lastSoak: null }],
-    [7653, { streamId: 7653, name: "Arena Sports Golf FHD", provider: "Provider C", channelId: 40, channelName: "Arena Sports Golf", lastSoak: null }],
+    [8135, { streamId: 8135, name: "Arena Sports Golf HD", provider: "Provider A", channelId: 40, channelName: "Arena Sports Golf", lastSoak: null, probedAt: null, status: "unprobed" }],
+    [7653, { streamId: 7653, name: "Arena Sports Golf FHD", provider: "Provider C", channelId: 40, channelName: "Arena Sports Golf", lastSoak: null, probedAt: null, status: "unprobed" }],
   ]),
   channelsByName: new Map([["Arena Sports Golf", 40]]),
 };

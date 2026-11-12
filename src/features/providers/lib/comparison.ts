@@ -1,5 +1,6 @@
-import type { ProviderStats, ResolutionBucket, StreamState } from "@/api/types";
+import type { FlakyProvider, ProviderStats, ResolutionBucket, StreamState } from "@/api/types";
 import type { Better } from "@/lib/best";
+import { FLAKY_FLIPS } from "@/lib/flips";
 import { formatInt, formatKbps, formatPercent, formatSeconds } from "@/lib/format";
 
 
@@ -42,12 +43,32 @@ function rank1Health(p: ProviderStats): string {
   return s == null ? "—" : `${Math.round(s * 100)}% · ${formatInt(p.rank1Healthy)} of ${formatInt(p.rank1Channels)}`;
 }
 
+/** The range the stability row covers (the Flaky streams page can show others). */
+export const STABILITY_RANGE = "30d";
+
+/** Flaky streams as a row: a provider the probe log has no streams for has no reading. */
+function flakyRow(flaky: FlakyProvider[]): Row {
+  const of = (p: ProviderStats) => flaky.find((f) => f.name === p.name);
+  return {
+    id: "flaky",
+    label: "Flaky streams",
+    hint: `flipped between playable and broken ${FLAKY_FLIPS}+ times in 30 days`,
+    value: (p) => of(p)?.share ?? null,
+    display: (p) => {
+      const f = of(p);
+      return f?.share == null ? "—" : withShare(f.flaky, f.probed);
+    },
+    better: "low",
+  };
+}
+
 /**
  * The comparison, top to bottom: who serves channels first and how well,
- * then what their streams are like, then why the broken ones broke.
+ * then what their streams are like (and, from Rostrum's probe log when it
+ * has one, how steady they are), then why the broken ones broke.
  * Dead-reason rows are built from whichever reasons any provider reports.
  */
-export function comparisonSections(providers: ProviderStats[]): Section[] {
+export function comparisonSections(providers: ProviderStats[], flaky?: FlakyProvider[] | null): Section[] {
   const reasons = [...new Set(providers.flatMap((p) => Object.keys(p.deadReasons)))].sort();
 
   const sections: Section[] = [
@@ -81,6 +102,7 @@ export function comparisonSections(providers: ProviderStats[]): Section[] {
         { id: "unmeasured", label: "Not measured yet", value: (p) => p.streams.unmeasured },
       ],
     },
+    ...(flaky?.length ? [{ id: "stability", title: "Stability", rows: [flakyRow(flaky)] }] : []),
     {
       id: "bitrate",
       title: "Median bitrate",

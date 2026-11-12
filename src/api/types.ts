@@ -299,6 +299,76 @@ export interface ChannelHistoryResponse {
   soaks: SoakRecord[];
   /** Connect events on this channel, newest first. */
   connect: ConnectEvent[];
+  /** Each stream the channel carries now, in its order, with what its probes found over the range. */
+  streams: StreamProbeHistory[];
+}
+
+/* ------------------------------------------------------------------------
+ * Flaky streams: Rostrum's log of every probe (server/stream-probes.ts).
+ * --------------------------------------------------------------------- */
+
+/** A stretch between one probe and the next, in the state the first found. */
+export interface ProbeSegment {
+  from: number;
+  to: number;
+  status: StreamStatus;
+}
+
+/** One stream over a range, from its probes. */
+export interface StreamProbeHistory {
+  streamId: number;
+  /** Probes in the range. */
+  probes: number;
+  /** Times it went from playable (alive, low bitrate) to broken (dead, black) or back, between one probe and the next. */
+  flips: number;
+  /** In time order: the probe in force when the range opens, then each one after. Empty when it has no probes logged. */
+  segments: ProbeSegment[];
+}
+
+export interface FlakyStream {
+  streamId: number;
+  name: string | null;
+  provider: string | null;
+  /** A channel carrying it now, if Rostrum knows one. */
+  channelId: number | null;
+  channelName: string | null;
+  /** What its latest probe found. */
+  status: StreamStatus;
+  probes: number;
+  flips: number;
+  /** Share of the range it was broken (dead or black), 0–1, from when each probe ran until the next. */
+  brokenShare: number | null;
+  lastFlipAt: number | null;
+}
+
+/** A provider's streams over a range: how many were probed, and how many flipped at least FLAKY_FLIPS times. */
+export interface FlakyProvider {
+  name: string;
+  probed: number;
+  flaky: number;
+  /** flaky / probed, 0–1; null with none probed. */
+  share: number | null;
+}
+
+/** GET /api/rostrum/flaky */
+export interface FlakyResponse {
+  enabled: boolean;
+  reason?: string;
+  range: HistoryRange;
+  from: number;
+  to: number;
+  /** The oldest probe logged. */
+  since: number | null;
+  /** Whether Podium's own probe history (Podium 1.18+) is feeding the log, so it reaches back before Rostrum started. */
+  podiumHistory: boolean;
+  /** Streams that flipped at least once, most flips first; at most FLAKY_LIMIT of `flipping`. */
+  streams: FlakyStream[];
+  flipping: number;
+  /** Streams that flipped at least FLAKY_FLIPS times. */
+  flaky: number;
+  /** Streams probed in the range. */
+  probed: number;
+  providers: FlakyProvider[];
 }
 
 /* ------------------------------------------------------------------------

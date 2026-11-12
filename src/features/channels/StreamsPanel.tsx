@@ -1,6 +1,7 @@
 import { RiRefreshLine } from "@remixicon/react";
-import { useChannelStreams } from "@/api/queries";
-import type { ChannelStreamsResponse, ChannelSummary } from "@/api/types";
+import { useMemo, useState } from "react";
+import { useChannelHistory, useChannelStreams } from "@/api/queries";
+import type { ChannelStreamsResponse, ChannelSummary, HistoryRange } from "@/api/types";
 import { Card, Empty } from "@/components/shared/Card";
 import { Notice } from "@/components/shared/Notice";
 import { QueryState } from "@/components/shared/QueryState";
@@ -24,6 +25,14 @@ const DETAIL_ERRORS: Record<NonNullable<ChannelStreamsResponse["details"]["error
 /** One channel: its streams with Podium's measurements, loaded when the channel is opened. */
 export function StreamsPanel({ channel, groupId, groupName }: { channel: ChannelSummary; groupId: number | null; groupName?: string }) {
   const query = useChannelStreams(channel.id);
+  // One range for the history below and the table's Flips column (the same query, so one request).
+  const [range, setRange] = useState<HistoryRange>("7d");
+  const history = useChannelHistory(channel.id, range).data;
+  const flips = useMemo(
+    () => (history?.enabled ? new Map(history.streams.map((s) => [s.streamId, s.flips])) : undefined),
+    [history],
+  );
+  const names = useMemo(() => new Map(query.data?.streams.map((s) => [s.id, s.name])), [query.data]);
   const healthy = query.data?.streams.filter((s) => streamStatus(s) === "alive").length;
 
   return (
@@ -56,9 +65,9 @@ export function StreamsPanel({ channel, groupId, groupName }: { channel: Channel
       }
     >
       <QueryState query={query} skeleton={<PanelSkeleton />}>
-        {(data) => <PanelBody data={data} />}
+        {(data) => <PanelBody data={data} flips={flips} />}
       </QueryState>
-      <ChannelHistory channelId={channel.id} />
+      <ChannelHistory channelId={channel.id} range={range} onRange={setRange} names={names} />
     </Card>
   );
 }
@@ -66,7 +75,7 @@ export function StreamsPanel({ channel, groupId, groupName }: { channel: Channel
 /** Below this the table keeps provider under the name and audio in one cell. */
 const FULL_TABLE_MIN_PX = 1600;
 
-function PanelBody({ data }: { data: ChannelStreamsResponse }) {
+function PanelBody({ data, flips }: { data: ChannelStreamsResponse; flips?: ReadonlyMap<number, number> }) {
   const now = useNow(15_000);
   const [ref, width] = useWidth<HTMLDivElement>();
   const { details, streams } = data;
@@ -89,7 +98,7 @@ function PanelBody({ data }: { data: ChannelStreamsResponse }) {
         </p>
       )}
       <div ref={ref} className="min-w-0">
-        <StreamsTable streams={streams} now={now} wide={width >= FULL_TABLE_MIN_PX} />
+        <StreamsTable streams={streams} now={now} wide={width >= FULL_TABLE_MIN_PX} flips={flips} />
       </div>
     </>
   );

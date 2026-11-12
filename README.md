@@ -45,11 +45,12 @@ fake. It needs Node 24; the first run takes a little longer while it builds.
 | | |
 | --- | --- |
 | ![Live pass](docs/screenshots/live.png) | **Live pass.** The pass in progress: probe progress, each provider's lane draining against its connection limit with the streams in flight, what was held back and why, soak tests waiting, and when the next pass starts. |
-| ![Channels](docs/screenshots/channels.png) | **Channels.** Dispatcharr's groups and channels. Open one to see its streams in Dispatcharr's order with what Podium measured: status, resolution, FPS, bitrate, codecs, HDR, audio, last soak. Below that is the channel's history: what it served first, how often that was playable, every time slot 1 changed, its soaks and its Connect switches. Re-check the channel or its group, or soak a stream or the whole channel, from here. |
+| ![Channels](docs/screenshots/channels.png) | **Channels.** Dispatcharr's groups and channels. Open one to see its streams in Dispatcharr's order with what Podium measured: status, resolution, FPS, bitrate, codecs, HDR, audio, last soak. A Flips column shows how often each stream came and went. Below that is the channel's history: what it served first, how often that was playable, every time slot 1 changed, a strip of each stream's probe results, its soaks and its Connect switches. Re-check the channel or its group, or soak a stream or the whole channel, from here. |
 | ![Trends](docs/screenshots/trends.png) | **Trends.** 24 hours to 90 days of problem streams, problem channels, channels served first by a healthy stream, freshness against Podium's target, and each provider's health, score and bitrate. |
 | ![Problem channels](docs/screenshots/problems.png) | **Problem channels.** Every channel sorted by what's wrong with it: no playable stream, a dead stream served first with a good one behind it, only one provider to fall back on, no streams at all. Channels Podium hasn't measured yet are folded away. |
+| ![Flaky streams](docs/screenshots/flaky.png) | **Flaky streams.** Streams that keep coming and going, most flips first: each time a probe found a stream broken (dead, black) when the one before found it playable, or the reverse. Each shows its probes, the share of time it was broken, its channel and each provider's share of flaky streams. On Podium 1.18 and later it starts with Podium's last 30 days of probes. |
 | ![Soak tests](docs/screenshots/soak.png) | **Soak tests.** Every soak result over time: clean, dropped or unreachable; each provider's record and median time held; the streams that keep failing, worst first. |
-| ![Providers](docs/screenshots/providers.png) | **Providers.** Your providers side by side: channels served first and how healthy, median score, stream health, bitrate by resolution, resolution mix, verdict age, and why dead streams died. The best value on each row is marked. |
+| ![Providers](docs/screenshots/providers.png) | **Providers.** Your providers side by side: channels served first and how healthy, median score, stream health, how many streams are flaky, bitrate by resolution, resolution mix, verdict age, and why dead streams died. The best value on each row is marked. |
 | ![History](docs/screenshots/history.png) | **History.** The last 24 hours of passes, probes, dead streams found and reorders, how old the cached verdicts are, and the Dispatcharr Connect log: each time a stream failed or was switched while someone was watching, ranked by stream, channel and provider. |
 | ![Dead & black](docs/screenshots/dead.png) | **Dead & black.** Every dead or black-screen stream, with the channels it sits on and its rank there, filterable, with a breakdown by provider. |
 | ![Streams](docs/screenshots/streams.png) | **Streams.** Search the whole catalogue by name, grouped the way Podium matches streams, with the providers carrying each and the channel that claims it, or "on no channel" for feeds nothing picks up yet. |
@@ -163,6 +164,10 @@ Rostrum has no login. Its server is a narrow proxy in front of Podium:
     the Channels page makes, four channels at a time. Neither probes anything or
     calls Dispatcharr. Rostrum notices an upgrade on its own and logs which way
     it is reading.
+  - Each stream's latest probe from that read goes into a probe log. On a
+    Podium with `GET /api/probe-history` (1.18 and later), Rostrum also reads
+    back Podium's last 30 days of probes once, 500 streams a request, and then
+    every 5 minutes only the probes since its last read.
 - **Load on Podium is bounded.**
   - Podium's state is reused for 10 seconds.
   - Searches (2 to 100 characters, at most 200 results) and provider metrics
